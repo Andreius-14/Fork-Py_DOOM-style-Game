@@ -47,11 +47,19 @@ class Map:
         self.get_map()
 
     def get_map(self):
+        # Por Fila
         for j, row in enumerate(self.mini_map):
+            # Por Columna
             for i, value in enumerate(row):
                 if value:
+                    """ Index - tupla de cordenadas y _ se omiten no entran en la tupla"""
                     self.world_map[(i, j)] = value
 
     def draw(self):
-        [pg.draw.rect(self.game.screen, 'darkgray', (pos[0] * 100, pos[1] * 100, 100, 100), 2)
-         for pos in self.world_map]
+        # Compresion resultado Draw - Del Mundo
+        # (surface, color, rect [tupla (x, y, width, height)], width=0)
+        [
+            pg.draw.rect( self.game.screen, "darkgray", (pos[0] * 100, pos[1] * 100, 100, 100), 2)
+            for pos in self.world_map
+        ]
+

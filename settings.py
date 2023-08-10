@@ -1,11 +1,11 @@
 import math
 
 # game settings
-RES = WIDTH, HEIGHT = 1600, 900
+RES = WIDTH, HEIGHT = 1240, 768
 # RES = WIDTH, HEIGHT = 1920, 1080
 HALF_WIDTH = WIDTH // 2
 HALF_HEIGHT = HEIGHT // 2
-FPS = 0
+FPS = 60
 
 PLAYER_POS = 1.5, 5  # mini_map
 PLAYER_ANGLE = 0

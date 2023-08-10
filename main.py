@@ -1,6 +1,8 @@
+# Estandar
 import pygame as pg
 import sys
-from settings import *
+# Complemento
+from settings import *          # Constantes
 from map import *
 from player import *
 from raycasting import *
@@ -13,45 +15,41 @@ from pathfinding import *
 
 
 class Game:
+
+    """Contructor sin Parametros [Init]"""
     def __init__(self):
+        # Inicia - pygame
         pg.init()
-        pg.mouse.set_visible(False)
+        # Inicia - Basico
         self.screen = pg.display.set_mode(RES)
-        pg.event.set_grab(True)
         self.clock = pg.time.Clock()
+        self.new_game()
+
+        # propiedades
+        pg.mouse.set_visible(False)  # Mouse Invisible
+        pg.event.set_grab(True)      # Mouse Evita que se salga de la pantalla
+        # E-Self
         self.delta_time = 1
         self.global_trigger = False
         self.global_event = pg.USEREVENT + 0
         pg.time.set_timer(self.global_event, 40)
-        self.new_game()
-
-    def new_game(self):
+    
+    """Instancia los import, Ejecuta 1vez """
+    def new_game(self):    
         self.map = Map(self)
-        self.player = Player(self)
-        self.object_renderer = ObjectRenderer(self)
-        self.raycasting = RayCasting(self)
-        self.object_handler = ObjectHandler(self)
-        self.weapon = Weapon(self)
         self.sound = Sound(self)
         self.pathfinding = PathFinding(self)
         pg.mixer.music.play(-1)
+        
+        # Draw Constante
+        self.object_renderer = ObjectRenderer(self)
+        # Update Constante
+        self.player = Player(self)
+        self.raycasting = RayCasting(self)
+        self.object_handler = ObjectHandler(self)
+        self.weapon = Weapon(self)
 
-    def update(self):
-        self.player.update()
-        self.raycasting.update()
-        self.object_handler.update()
-        self.weapon.update()
-        pg.display.flip()
-        self.delta_time = self.clock.tick(FPS)
-        pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
-
-    def draw(self):
-        # self.screen.fill('black')
-        self.object_renderer.draw()
-        self.weapon.draw()
-        # self.map.draw()
-        # self.player.draw()
-
+    """ El bucle Principal Ejecutara >>> Los 3 Funciones Siguientes """
     def check_events(self):
         self.global_trigger = False
         for event in pg.event.get():
@@ -62,13 +60,39 @@ class Game:
                 self.global_trigger = True
             self.player.single_fire_event(event)
 
+    def update(self):
+        # Update - Basica
+        pg.display.flip()
+        self.delta_time = self.clock.tick(FPS)
+        pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
+
+        # Update - Instancia
+        self.player.update()
+        self.raycasting.update()
+        self.object_handler.update()
+        self.weapon.update()
+        
+    def draw(self):
+        # Draw - 2D
+        # self.screen.fill('black')
+        # self.map.draw()
+        # self.player.draw()
+        # Draw - 3D
+        self.object_renderer.draw()
+        self.weapon.draw()
+
+    """ Bucle Principal - Se ejecuta Constantemente """
     def run(self):
         while True:
+            #Eventos
             self.check_events()
+            #Actualiza Data
             self.update()
+            #Dibuja
             self.draw()
 
 
+# El Inicia
 if __name__ == '__main__':
     game = Game()
     game.run()
