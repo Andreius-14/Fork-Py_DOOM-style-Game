@@ -125,9 +125,12 @@ class Player:
     # 🔃 In Update
     """ MOUSE - Determina Angulo del Personaje"""
     def mouse_control(self):
+        # Posicion del Mouse
         mx, my = pg.mouse.get_pos()
+        # Precindible - Te saliste te devuelve al centro
         if mx < MOUSE_BORDER_LEFT or mx > MOUSE_BORDER_RIGHT:
             pg.mouse.set_pos([HALF_WIDTH, HALF_HEIGHT])
+        # Tupla - x,y - solo x - Cuanto se desplazo con respecto a su ubicacion Anterior
         self.rel = pg.mouse.get_rel()[0]
         self.rel = max(-MOUSE_MAX_REL, min(MOUSE_MAX_REL, self.rel))
         self.angle += self.rel * MOUSE_SENSITIVITY * self.game.delta_time
