@@ -62,10 +62,12 @@ class Player:
 
     # 🔃 In Update
     def movement(self):
-        sin_a = math.sin(self.angle)
-        cos_a = math.cos(self.angle)
         dx, dy = 0, 0
         speed = PLAYER_SPEED * self.game.delta_time
+
+        sin_a = math.sin(self.angle)
+        cos_a = math.cos(self.angle)
+ 
         speed_sin = speed * sin_a
         speed_cos = speed * cos_a
 
@@ -100,6 +102,8 @@ class Player:
         #     self.angle -= PLAYER_ROT_SPEED * self.game.delta_time
         # if keys[pg.K_RIGHT]:
         #     self.angle += PLAYER_ROT_SPEED * self.game.delta_time
+
+        # Reestablece Radianes al Superar su Limite
         self.angle %= math.tau
 
     """ COLISIONES """
@@ -108,6 +112,7 @@ class Player:
         return (x, y) not in self.game.map.world_map
     
     # Funcion Principal
+    # Condicional - Movimiento del Personaje . Colision de Pareres
     def check_wall_collision(self, dx, dy):
         scale = PLAYER_SIZE_SCALE / self.game.delta_time
         if self.check_wall(int(self.x + dx * scale), int(self.y)):

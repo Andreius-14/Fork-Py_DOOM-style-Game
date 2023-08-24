@@ -10,6 +10,7 @@ class RayCasting:
         self.objects_to_render = []
         self.textures = self.game.object_renderer.wall_textures
 
+    """ Funcion enfocada a la textura """
     def get_objects_to_render(self):
         self.objects_to_render = []
         for ray, values in enumerate(self.ray_casting_result):
@@ -33,22 +34,36 @@ class RayCasting:
             self.objects_to_render.append((depth, wall_column, wall_pos))
 
     def ray_cast(self):
+
+        """ Variables """
         self.ray_casting_result = []
         texture_vert, texture_hor = 1, 1
+
+        # Position: Personaje 
         ox, oy = self.game.player.pos
+        # Position: Grid Enteros
         x_map, y_map = self.game.player.map_pos
 
+        # Angulo entre Rayos
         ray_angle = self.game.player.angle - HALF_FOV + 0.0001
+
+        # Bucle - N° de Rayos 
         for ray in range(NUM_RAYS):
+            # Largo C.O
             sin_a = math.sin(ray_angle)
+            # Largo C.A
             cos_a = math.cos(ray_angle)
 
-            # horizontals
+            """ GRID: horizontals - Hallar X - Facil Y """
+
+            # [y_hor: dy primera Interseccion], [dy: Distancia dy General]
             y_hor, dy = (y_map + 1, 1) if sin_a > 0 else (y_map - 1e-6, -1)
 
+            # Distancia - Hipotenusa Firts
             depth_hor = (y_hor - oy) / sin_a
             x_hor = ox + depth_hor * cos_a
 
+            # Distancia - Hipotenusa General
             delta_depth = dy / sin_a
             dx = delta_depth * cos_a
 
@@ -61,12 +76,21 @@ class RayCasting:
                 y_hor += dy
                 depth_hor += delta_depth
 
-            # verticals
+            # [Extra]
+            #        sin_a = (y_hor - oy) / depth_vert   --> y_hor = oy + depth_vert * sin_a 
+            #        cos_a = (x_hor - ox) / depth_vert   --> x_hor = ox + depth_vert * cos_a
+
+
+            """ GRID: verticals - Hallar Y - Facil X """
+            
+            # [x_vert: dx primera Interseccion], [dx: Distancia dx General]
             x_vert, dx = (x_map + 1, 1) if cos_a > 0 else (x_map - 1e-6, -1)
 
+            # Distancia - Hipotenusa Firts
             depth_vert = (x_vert - ox) / cos_a
             y_vert = oy + depth_vert * sin_a
-
+            
+            # Distancia - Hipotenusa General
             delta_depth = dx / cos_a
             dy = delta_depth * sin_a
 
@@ -79,7 +103,13 @@ class RayCasting:
                 y_vert += dy
                 depth_vert += delta_depth
 
-            # depth, texture offset
+
+            # [Extra]
+            #        sin_a = (y_vert - oy) / depth_vert   --> y_vert = oy + depth_vert * sin_a 
+            #        cos_a = (x_vert - ox) / depth_vert   --> x_vert = ox + depth_vert * cos_a
+            
+
+            # 📉📉📉 depth, texture offset
             if depth_vert < depth_hor:
                 depth, texture = depth_vert, texture_vert
                 y_vert %= 1

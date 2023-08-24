@@ -1,4 +1,0 @@
-- las funciones de clases que llevan (self) - Se permite acceder a los campos
-
-- un constructor sin parámetros se llama "init"
-- Podemos instanciar cosas en el "init"

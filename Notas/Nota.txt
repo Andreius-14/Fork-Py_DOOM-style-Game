@@ -1,0 +1,30 @@
+- las funciones de clases que llevan (self) - Se permite acceder a los campos
+
+- un constructor sin parámetros se llama "init"
+- Podemos instanciar cosas en el "init"
+
+
+RAYCASTING
+
+  FOV (Field of View): 
+      Este parámetro define el ángulo de visión de la cámara en radianes. Un valor común para FOV es math.pi / 3, que corresponde a un ángulo de 60 grados.
+
+  HALF_FOV: 
+      Este parámetro es la mitad del FOV y se utiliza para calcular la dirección de los rayos.
+  
+  NUM_RAYS: 
+      Este parámetro define el número de rayos que se lanzarán desde la cámara. Un valor común para NUM_RAYS es la mitad del ancho de la pantalla.
+  
+  HALF_NUM_RAYS: 
+      Este parámetro es la mitad de NUM_RAYS y se utiliza para calcular la dirección de los rayos.
+  
+  DELTA_ANGLE: 
+      Este parámetro es la diferencia de ángulo entre cada rayo. Se calcula dividiendo el FOV entre NUM_RAYS.
+  
+  MAX_DEPTH: 
+      Este parámetro define la distancia máxima a la que se renderizarán los objetos en la escena.
+
+
+
+Para el vista del RAyasting se complementa 
+  RAYCASTING + object_renderer
